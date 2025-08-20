@@ -45,3 +45,12 @@ Here are the tasks in your list:
 2. [D][X] return book (by: Sunday)
 3. [E][ ] project meeting (from: Mon 2pm to: 4pm)
 4. [D][ ] do homework (by: no idea :-p)
+Got it. I've added this task:
+  [D][ ] return book (by: June 6th)
+Now you have 5 tasks in the list.
+Noted. I've removed this task:
+  [D][ ] return book (by: June 6th)
+Now you have 4 tasks in the list.
+Please provide a description for your Todo.
+Please provide a deadline using '/by'.
+Please provide a start time using '/from' and an end time using '/to'.

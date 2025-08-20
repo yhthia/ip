@@ -12,3 +12,8 @@ unmark 3
 list
 deadline do homework /by no idea :-p
 list
+deadline return book /by June 6th
+delete 5
+todo
+deadline buy new shoes
+event cs2103t lecture
