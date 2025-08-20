@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class MyChatBot {
     private final Scanner input = new Scanner(System.in);
-    private ArrayList<String> list = new ArrayList<>();
+    private ArrayList<Task> list = new ArrayList<>();
 
 
     private void greet() {
@@ -17,13 +17,34 @@ public class MyChatBot {
     }
 
     private void add(String userInput) {
-        list.add(userInput);
+        Task task = new Task(userInput);
+        list.add(task);
         System.out.println("added: " + userInput);
     }
 
     private void printList() {
+        System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < list.size(); i++) {
-            System.out.println(" " + (i + 1) + ". " + list.get(i));
+            System.out.println((i + 1) + ". " + list.get(i));
+        }
+    }
+
+    private void markTask(int task) {
+        if (task >= 1 && task <= list.size()) {
+            Task doneTask = list.get(task - 1);
+            doneTask.markAsDone();
+            System.out.println("Nice! I've marked this task as done:");
+            System.out.println("[X] " + doneTask.description);
+
+        }
+    }
+
+    private void unmarkTask(int task) {
+        if (task >= 1 && task <= list.size()) {
+            Task undoneTask = list.get(task - 1);
+            undoneTask.markAsNotDone();
+            System.out.println("OK, I've marked this task as not done yet:");
+            System.out.println("[ ] " + undoneTask.description);
         }
     }
 
@@ -35,7 +56,14 @@ public class MyChatBot {
                 break;
             } else if (userInput.equals("list")) {
                 printList();
-            } else {
+            } else if (userInput.startsWith("mark ")) {
+                int task = Integer.parseInt(userInput.substring(5).trim());
+                markTask(task);
+            } else if (userInput.startsWith("unmark ")) {
+                int task = Integer.parseInt(userInput.substring(6).trim());
+                unmarkTask(task);
+            }
+            else {
                 add(userInput);
             }
         }
