@@ -18,7 +18,7 @@ public class MyChatBot {
 
     private void addTask(Task task) {
         list.add(task);
-        System.out.println("Got it. I've added this task: ");
+        System.out.println("Got it. I've added this task:");
         System.out.println("  " + task);
         System.out.println("Now you have " + list.size() + " tasks in the list.");
     }
