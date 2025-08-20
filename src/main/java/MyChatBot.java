@@ -16,10 +16,11 @@ public class MyChatBot {
         System.out.println("Bye. Hope to see you again soon!");
     }
 
-    private void add(String userInput) {
-        Task task = new Task(userInput);
+    private void addTask(Task task) {
         list.add(task);
-        System.out.println("added: " + userInput);
+        System.out.println("Got it. I've added this task: ");
+        System.out.println("  " + task);
+        System.out.println("Now you have " + list.size() + " tasks in the list.");
     }
 
     private void printList() {
@@ -62,9 +63,33 @@ public class MyChatBot {
             } else if (userInput.startsWith("unmark ")) {
                 int task = Integer.parseInt(userInput.substring(6).trim());
                 unmarkTask(task);
-            }
-            else {
-                add(userInput);
+            } else if (userInput.startsWith("todo ")) {
+                String desc = userInput.substring(5).trim();
+                addTask(new Todo(desc));
+            } else if (userInput.startsWith("deadline ")) {
+                String body = userInput.substring(9).trim();
+                int byIdx = body.indexOf(" /by ");
+                if (byIdx != -1) {
+                    String desc = body.substring(0, byIdx);
+                    String by = body.substring(byIdx + 5);
+                    addTask(new Deadline(desc.trim(), by.trim()));
+                } else {
+                    addTask(new Deadline(body, ""));
+                }
+            } else if (userInput.startsWith("event ")) {
+                String body = userInput.substring(6).trim();
+                int fromIdx = body.indexOf(" /from ");
+                int toIdx = body.indexOf(" /to ");
+                if (fromIdx != -1 && toIdx != -1 && toIdx > fromIdx) {
+                    String desc = body.substring(0, fromIdx);
+                    String from = body.substring(fromIdx + 7, toIdx);
+                    String to = body.substring(toIdx + 5);
+                    addTask(new Event(desc.trim(), from.trim(), to.trim()));
+                } else {
+                    addTask(new Event(body, "", ""));
+                }
+            } else {
+                addTask(new Todo(userInput));
             }
         }
     }
