@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 public class MyChatBot {
     private final Scanner input = new Scanner(System.in);
-    private ArrayList<Task> list = new ArrayList<>();
-
+    private ArrayList<Task> list;
+    private final Storage storage = new Storage("./data/mychatbot.txt");
 
     private void greet() {
         System.out.println("Hello! I'm MyChatBot.");
@@ -19,6 +19,7 @@ public class MyChatBot {
 
     private void addTask(Task task) {
         list.add(task);
+        storage.save(list);
         System.out.println("Got it. I've added this task:");
         System.out.println("  " + task);
         System.out.println("Now you have " + list.size() + " tasks in the list.");
@@ -29,6 +30,7 @@ public class MyChatBot {
             throw new MyChatBotException("Task number " + taskIdx + " does not exist.");
         }
         Task deletedTask = list.remove(taskIdx - 1);
+        storage.save(list);
         System.out.println("Noted. I've removed this task:");
         System.out.println("  " + deletedTask);
         System.out.println("Now you have " + list.size() + " tasks in the list.");
@@ -47,6 +49,7 @@ public class MyChatBot {
         }
         Task doneTask = list.get(task - 1);
         doneTask.markAsDone();
+        storage.save(list);
         System.out.println("Nice! I've marked this task as done:");
         System.out.println("[X] " + doneTask.description);
     }
@@ -57,6 +60,7 @@ public class MyChatBot {
         }
         Task undoneTask = list.get(task - 1);
         undoneTask.markAsNotDone();
+        storage.save(list);
         System.out.println("OK, I've marked this task as not done yet:");
         System.out.println("[ ] " + undoneTask.description);
     }
@@ -89,7 +93,7 @@ public class MyChatBot {
                     if (desc.isEmpty()) {
                         throw new MyChatBotException("Please provide a description for your Todo.");
                     }
-                    addTask(new Todo(desc));
+                    addTask(new Todo(desc, false));
                 } else if (userInput.startsWith("deadline")) {
                     String body = userInput.substring(8).trim();
                     int byIdx = body.indexOf(" /by ");
@@ -101,7 +105,7 @@ public class MyChatBot {
                     if (desc.isEmpty() || by.isEmpty()) {
                         throw new MyChatBotException("Please provide a description and a deadline using '/by'.");
                     }
-                    addTask(new Deadline(desc.trim(), by.trim()));
+                    addTask(new Deadline(desc.trim(), false, by.trim()));
                 } else if (userInput.startsWith("event ")) {
                     String body = userInput.substring(5).trim();
                     int fromIdx = body.indexOf(" /from ");
@@ -115,7 +119,7 @@ public class MyChatBot {
                     if (desc.isEmpty() || from.trim().isEmpty() || to.trim().isEmpty()) {
                         throw new MyChatBotException("Please provide a description, a start time using '/from' and an end time using '/to'.");
                     }
-                    addTask(new Event(desc.trim(), from.trim(), to.trim()));
+                    addTask(new Event(desc.trim(), false, from.trim(), to.trim()));
                 } else if (userInput.startsWith("delete ")) {
                     try {
                         int task = Integer.parseInt(userInput.substring(7).trim());
@@ -132,6 +136,10 @@ public class MyChatBot {
                 break;
             }
         }
+    }
+
+    public MyChatBot() {
+        this.list = storage.load();
     }
 
 
