@@ -1,5 +1,7 @@
 package mychatbot;
 
+import java.util.ArrayList;
+
 public class Ui {
     public void greet() {
         System.out.println("Hello! I'm MyChatBot.");
@@ -20,6 +22,13 @@ public class Ui {
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < list.size(); i++) {
             System.out.println((i + 1) + ". " + list.getTask(i));
+        }
+    }
+
+    public void printMatchingTasks(ArrayList<Task> tasks) {
+        System.out.println("Here are the matching tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println((i + 1) + ". " + tasks.get(i));
         }
     }
 
