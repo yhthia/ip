@@ -6,9 +6,22 @@ public class Parser {
         return tokens[0];
     }
 
-    public static int getTaskIndex(String input) {
-        String[] tokens = input.trim().split(" ");
-        return Integer.parseInt(tokens[1]) - 1;
+    public static int getTaskIndex(String input) throws MyChatBotException {
+        try {
+            String[] tokens = input.trim().split(" ");
+            if (tokens.length < 2) {
+                throw new MyChatBotException("Invalid format, it should be: 'mark <number>'");
+            }
+            int idx = Integer.parseInt(tokens[1]) - 1;
+            if (idx < 0) {
+                throw new MyChatBotException("Task number must be positive.");
+            }
+            return idx;
+        } catch (NumberFormatException e) {
+            throw new MyChatBotException("Invalid task number.");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new MyChatBotException("Task number is out of bounds.");
+        }
     }
 
     public static String getDescription(String input) {
