@@ -8,13 +8,28 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+/**
+ * Responsible for reading from and writing to the task data file.
+ */
 public class Storage {
     private final Path filePath;
 
+    /**
+     * Constructs a Storage object with the specified file path.
+     *
+     * @param filePath The path to the file where the tasks are saved in.
+     */
     public Storage(String filePath) {
         this.filePath = Paths.get(filePath);
     }
 
+
+    /**
+     * Loads tasks from the file.
+     * If the file or its parent directory does not exist, they will be created.
+     * @return An ArrayList of Tasks loaded from the file.
+     * @throws MyChatBotException if there is an error reading the file.
+     */
     public ArrayList<Task> load() throws MyChatBotException {
         ArrayList<Task> tasks = new ArrayList<>();
         try {
@@ -57,6 +72,11 @@ public class Storage {
         return tasks;
     }
 
+    /**
+     * Saves the given task list into a file.
+     * Each task is serialised into a string and written in the file as a new line.
+     * @param tasks The list of tasks to save.
+     */
     public void save(ArrayList<Task> tasks) {
         try {
             Files.createDirectories(filePath.getParent());
