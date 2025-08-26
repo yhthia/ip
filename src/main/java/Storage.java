@@ -13,7 +13,7 @@ public class Storage {
         this.filePath = Paths.get(filePath);
     }
 
-    public ArrayList<Task> load() {
+    public ArrayList<Task> load() throws MyChatBotException {
         ArrayList<Task> tasks = new ArrayList<>();
         try {
             if (!Files.exists(filePath.getParent())) {
