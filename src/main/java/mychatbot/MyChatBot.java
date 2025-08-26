@@ -2,7 +2,9 @@ package mychatbot;
 
 import java.util.Scanner;
 
-
+/**
+ * Main class of the application, which runs the main event loop.
+ */
 public class MyChatBot {
     private final Storage storage;
     private TaskList tasks;
@@ -19,6 +21,12 @@ public class MyChatBot {
         }
     }
 
+    /**
+     * Initializes the main event loop.
+     * Greets the user and scans the user's input and processes it accordingly.
+     * The tasks from the user's input are also stored in a file and can be retrieved.
+     * Any invalid commands or errors are reported to the user via the UI class.
+     */
     public void run() {
         ui.greet();
         Scanner input = new Scanner(System.in);
