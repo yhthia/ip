@@ -56,8 +56,10 @@ public class Parser {
     public static String[] getDeadlineParts(String input) {
         String body = input.substring(8).trim();
         int byIdx = body.indexOf(" /by ");
+
         String desc = body.substring(0, byIdx);
         String by = body.substring(byIdx + 5);
+
         return new String[]{desc.trim(), by.trim()};
     }
 
@@ -70,9 +72,11 @@ public class Parser {
         String body = input.substring(5).trim();
         int fromIdx = body.indexOf(" /from ");
         int toIdx = body.indexOf(" /to ");
+
         String desc = body.substring(0, fromIdx);
         String from = body.substring(fromIdx + 7, toIdx);
         String to = body.substring(toIdx + 5);
+
         return new String[]{desc.trim(), from.trim(), to.trim()};
     }
 }
