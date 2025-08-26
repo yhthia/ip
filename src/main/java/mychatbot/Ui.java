@@ -1,3 +1,5 @@
+package mychatbot;
+
 public class Ui {
     public void greet() {
         System.out.println("Hello! I'm MyChatBot.");

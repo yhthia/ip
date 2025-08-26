@@ -1,3 +1,5 @@
+package mychatbot;
+
 import java.util.Scanner;
 
 

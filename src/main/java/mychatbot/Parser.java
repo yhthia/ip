@@ -1,3 +1,5 @@
+package mychatbot;
+
 public class Parser {
     public static String getCommandType(String input) {
         String[] tokens = input.trim().split(" ", 2);
