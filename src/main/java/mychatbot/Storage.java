@@ -17,6 +17,7 @@ public class Storage {
 
     public ArrayList<Task> load() throws MyChatBotException {
         ArrayList<Task> tasks = new ArrayList<>();
+
         try {
             if (!Files.exists(filePath.getParent())) {
                 Files.createDirectories(filePath.getParent());
