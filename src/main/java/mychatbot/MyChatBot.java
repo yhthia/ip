@@ -1,5 +1,6 @@
 package mychatbot;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -77,6 +78,11 @@ public class MyChatBot {
                     tasks.addTask(event);
                     storage.save(tasks.getTasks());
                     ui.addTaskUi(event, tasks.size());
+                    break;
+                case "find":
+                    String keyword = Parser.getDescription(userInput);
+                    ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
+                    ui.printMatchingTasks(matchingTasks);
                     break;
                 default:
                     ui.showError("Sorry, please try again.");
