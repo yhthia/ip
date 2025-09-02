@@ -3,50 +3,49 @@ package mychatbot;
 import java.util.ArrayList;
 
 public class Ui {
-    public void greet() {
-        System.out.println("Hello! I'm MyChatBot.");
-        System.out.println("What can I do for you?");
+    public String greet() {
+        return "Hello! I'm MyChatBot. \nWhat can I do for you?";
     }
 
-    public void exit() {
-        System.out.println("Bye. Hope to see you again soon!");
+    public String exit() {
+        return "Bye. Hope to see you again soon!";
     }
 
-    public void addTaskUi(Task task, int size) {
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + task);
-        System.out.println("Now you have " + size + " tasks in the list.");
+    public String addTaskUi(Task task, int size) {
+        return "Got it. I've added this task:\n  " + task + "\nNow you have " + size + " tasks in the list.";
     }
 
-    public void printList(TaskList list) {
-        System.out.println("Here are the tasks in your list:");
+    public String printList(TaskList list) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Here are the tasks in your list:\n");
         for (int i = 0; i < list.size(); i++) {
-            System.out.println((i + 1) + ". " + list.getTask(i));
+            stringBuilder.append((i + 1)).append(". ").append(list.getTask(i)).append("\n");
         }
+        return stringBuilder.toString().trim();
     }
 
-    public void printMatchingTasks(ArrayList<Task> tasks) {
-        System.out.println("Here are the matching tasks in your list:");
+    public String printMatchingTasks(ArrayList<Task> tasks) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Here are the matching tasks in your list:\n");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i));
+            stringBuilder.append((i + 1)).append(". ").append(tasks.get(i)).append("\n");
         }
+        return stringBuilder.toString().trim();
     }
 
-    public void markTaskUi(Task task) {
-        System.out.println("Nice! I've marked this task as done:");
-        System.out.println("[X] " + task.description);
+    public String markTaskUi(Task task) {
+        return "Nice! I've marked this task as done:\n[X] " + task.description;
     }
 
-    public void unmarkTaskUi(Task task) {
-        System.out.println("OK, I've marked this task as not done yet:");
-        System.out.println("[ ] " + task.description);
+    public String unmarkTaskUi(Task task) {
+        return "OK, I've marked this task as not done yet:\n[ ] " + task.description;
     }
 
-    public void showError(String error) {
-        System.out.println(error);
+    public String showError(String error) {
+        return error;
     }
 
-    public void showLoadingError() {
-        System.out.println("Error loading tasks from file.");
+    public String showLoadingError() {
+        return "Error loading tasks from file.";
     }
 }
