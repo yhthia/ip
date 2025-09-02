@@ -7,13 +7,14 @@ import java.util.Scanner;
  * Main class of the application, which runs the main event loop.
  */
 public class MyChatBot {
+    private static final String DEFAULT_FILE_PATH = "data/tasks.txt";
     private final Storage storage;
     private TaskList tasks;
     private final Ui ui;
 
-    public MyChatBot(String filePath) {
+    public MyChatBot() {
         ui = new Ui();
-        storage = new Storage(filePath);
+        storage = new Storage(DEFAULT_FILE_PATH);
         try {
             tasks = new TaskList(storage.load());
         } catch (MyChatBotException e) {
@@ -95,6 +96,14 @@ public class MyChatBot {
 
 
     public static void main(String[] args) {
-        new MyChatBot("data/tasks.txt").run();
+        new MyChatBot().run();
+    }
+
+
+    /**
+     * Generates a response for the user's chat message.
+     */
+    protected String getResponse(String input) {
+        return "MyChatBot heard: " + input;
     }
 }
