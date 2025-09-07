@@ -30,6 +30,7 @@ public class MyChatBot {
      * Any invalid commands or errors are reported to the user via the UI class.
      */
     public String getResponse(String userInput) {
+        assert userInput != null : "User input should not be null";
         String response;
         String command = Parser.getCommandType(userInput);
         try {
@@ -42,12 +43,14 @@ public class MyChatBot {
                 break;
             case "mark":
                 int markIndex = Parser.getTaskIndex(userInput);
+                assert markIndex < tasks.size() : "Mark index out of bounds";
                 tasks.getTask(markIndex).markAsDone();
                 storage.save(tasks.getTasks());
                 response = ui.markTaskUi(tasks.getTask(markIndex));
                 break;
             case "unmark":
                 int unmarkIndex = Parser.getTaskIndex(userInput);
+                assert unmarkIndex < tasks.size() : "Unmark index out of bounds";
                 tasks.getTask(unmarkIndex).markAsNotDone();
                 storage.save(tasks.getTasks());
                 response = ui.unmarkTaskUi(tasks.getTask(unmarkIndex));
@@ -61,6 +64,7 @@ public class MyChatBot {
                 break;
             case "deadline":
                 String[] deadlineParts = Parser.getDeadlineParts(userInput);
+                assert deadlineParts.length == 2: "Deadline parts should have description and due date";
                 Task deadline = new Deadline(deadlineParts[0], false, deadlineParts[1]);
                 tasks.addTask(deadline);
                 storage.save(tasks.getTasks());
@@ -68,6 +72,7 @@ public class MyChatBot {
                 break;
             case "event":
                 String[] eventParts = Parser.getEventParts(userInput);
+                assert eventParts.length == 3: "Event parts should have description, start and end time";
                 Task event = new Event(eventParts[0], false, eventParts[1], eventParts[2]);
                 tasks.addTask(event);
                 storage.save(tasks.getTasks());
@@ -75,6 +80,7 @@ public class MyChatBot {
                 break;
             case "find":
                 String keyword = Parser.getDescription(userInput);
+                assert !keyword.isEmpty() : "Keyword should not be empty";
                 ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
                 response = ui.printMatchingTasks(matchingTasks);
                 break;
