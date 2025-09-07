@@ -1,6 +1,8 @@
 package mychatbot;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class TaskList {
     private ArrayList<Task> tasks;
@@ -40,5 +42,11 @@ public class TaskList {
             }
         }
         return matchingTasks;
+    }
+
+    public void sortChronologically() {
+        tasks.sort(Comparator.comparing(
+                task -> task.getDateTime() == null ? LocalDateTime.MAX : task.getDateTime()
+        ));
     }
 }

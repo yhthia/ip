@@ -1,5 +1,7 @@
 package mychatbot;
 
+import java.time.LocalDateTime;
+
 public class Task {
     protected String description;
     protected boolean isDone;
@@ -11,6 +13,10 @@ public class Task {
 
     public String getDescription() {
         return description;
+    }
+
+    public LocalDateTime getDateTime() {
+        return null;
     }
 
     public String getStatusIcon() {
