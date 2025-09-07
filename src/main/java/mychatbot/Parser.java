@@ -53,14 +53,20 @@ public class Parser {
      * @param input The raw input string.
      * @return The description and deadline of the Deadline in the user input as String[].
      */
-    public static String[] getDeadlineParts(String input) {
-        String body = input.substring(8).trim();
-        int byIdx = body.indexOf(" /by ");
+    public static String[] getDeadlineParts(String input) throws MyChatBotException {
+        try {
+            String body = input.substring(8).trim();
+            int byIdx = body.indexOf(" /by ");
 
-        String desc = body.substring(0, byIdx);
-        String by = body.substring(byIdx + 5);
+            String desc = body.substring(0, byIdx);
+            String by = body.substring(byIdx + 5);
 
-        return new String[]{desc.trim(), by.trim()};
+            return new String[]{desc.trim(), by.trim()};
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new MyChatBotException("Invalid format, " +
+                    "it should be: 'deadline <description> /by <due date> " +
+                    "in the format d/M/yyyy HHmm'");
+        }
     }
 
     /**
@@ -68,15 +74,21 @@ public class Parser {
      * @param input The raw input string.
      * @return The description, start and end times of the Event in the user input as String[].
      */
-    public static String[] getEventParts(String input) {
-        String body = input.substring(5).trim();
-        int fromIdx = body.indexOf(" /from ");
-        int toIdx = body.indexOf(" /to ");
+    public static String[] getEventParts(String input) throws MyChatBotException {
+        try {
+            String body = input.substring(5).trim();
+            int fromIdx = body.indexOf(" /from ");
+            int toIdx = body.indexOf(" /to ");
 
-        String desc = body.substring(0, fromIdx);
-        String from = body.substring(fromIdx + 7, toIdx);
-        String to = body.substring(toIdx + 5);
+            String desc = body.substring(0, fromIdx);
+            String from = body.substring(fromIdx + 7, toIdx);
+            String to = body.substring(toIdx + 5);
 
-        return new String[]{desc.trim(), from.trim(), to.trim()};
+            return new String[]{desc.trim(), from.trim(), to.trim()};
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new MyChatBotException("Invalid format, " +
+                    "it should be: 'event <description> /from <start date> /to <end date>" +
+                    "in the format d/M/yyyy HHmm'");
+        }
     }
 }
