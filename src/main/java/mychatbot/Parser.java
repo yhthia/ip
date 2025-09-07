@@ -10,6 +10,7 @@ public class Parser {
      * @return The command.
      */
     public static String getCommandType(String input) {
+        assert input != null : "Input should not be null";
         String[] tokens = input.trim().split(" ", 2);
         return tokens[0];
     }
@@ -22,15 +23,14 @@ public class Parser {
      * @throws MyChatBotException If the format or number of the input string is invalid.
      */
     public static int getTaskIndex(String input) throws MyChatBotException {
+        assert input != null : "Input should not be null";
         try {
             String[] tokens = input.trim().split(" ");
             if (tokens.length < 2) {
                 throw new MyChatBotException("Invalid format, it should be: 'mark <number>'");
             }
             int idx = Integer.parseInt(tokens[1]) - 1;
-            if (idx < 0) {
-                throw new MyChatBotException("Task number must be positive.");
-            }
+            assert idx >= 0 : "Task index should be non-negative";
             return idx;
         } catch (NumberFormatException e) {
             throw new MyChatBotException("Invalid task number.");
@@ -45,6 +45,7 @@ public class Parser {
      * @return The description of the Todo in the user input.
      */
     public static String getDescription(String input) {
+        assert input != null : "Input should not be null";
         return input.substring(input.indexOf(" ") + 1).trim();
     }
 
@@ -54,9 +55,11 @@ public class Parser {
      * @return The description and deadline of the Deadline in the user input as String[].
      */
     public static String[] getDeadlineParts(String input) throws MyChatBotException {
+        assert input != null : "Input should not be null";
         try {
             String body = input.substring(8).trim();
             int byIdx = body.indexOf(" /by ");
+            assert byIdx != -1 : "Input should contain '/by' for deadline";
 
             String desc = body.substring(0, byIdx);
             String by = body.substring(byIdx + 5);
@@ -75,10 +78,13 @@ public class Parser {
      * @return The description, start and end times of the Event in the user input as String[].
      */
     public static String[] getEventParts(String input) throws MyChatBotException {
+        assert input != null : "Input should not be null";
         try {
             String body = input.substring(5).trim();
             int fromIdx = body.indexOf(" /from ");
             int toIdx = body.indexOf(" /to ");
+            assert fromIdx != -1 : "Input should contain '/from' for event";
+            assert toIdx != -1 : "Input should contain '/to' for event";
 
             String desc = body.substring(0, fromIdx);
             String from = body.substring(fromIdx + 7, toIdx);

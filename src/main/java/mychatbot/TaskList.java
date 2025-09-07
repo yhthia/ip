@@ -21,7 +21,10 @@ public class TaskList {
         return tasks;
     }
 
-    public Task getTask(int idx) {
+    public Task getTask(int idx) throws MyChatBotException {
+        if (idx < 0 || idx >= tasks.size()) {
+            throw new MyChatBotException("Task number is out of bounds.");
+        }
         return tasks.get(idx);
     }
 

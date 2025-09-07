@@ -15,7 +15,7 @@ public class Ui {
         return "Got it. I've added this task:\n  " + task + "\nNow you have " + size + " tasks in the list.";
     }
 
-    public String printList(TaskList list) {
+    public String printList(TaskList list) throws MyChatBotException {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Here are the tasks in your list:\n");
         for (int i = 0; i < list.size(); i++) {
