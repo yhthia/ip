@@ -4,6 +4,12 @@ package mychatbot;
  * Provides static methods for parsing users' input based on task type.
  */
 public class Parser {
+    private static final int DEADLINE_COMMAND_LENGTH = 8;
+    private static final int EVENT_COMMAND_LENGTH = 5;
+    private static final String DEADLINE_SEPARATOR = " /by ";
+    private static final String EVENT_FROM_SEPARATOR = " /from ";
+    private static final String EVENT_TO_SEPARATOR = " /to ";
+
     /**
      * Extracts the command from the user input, which is the first word of the input.
      * @param input The raw input string.
@@ -57,12 +63,12 @@ public class Parser {
     public static String[] getDeadlineParts(String input) throws MyChatBotException {
         assert input != null : "Input should not be null";
         try {
-            String body = input.substring(8).trim();
-            int byIdx = body.indexOf(" /by ");
+            String body = input.substring(DEADLINE_COMMAND_LENGTH).trim();
+            int byIdx = body.indexOf(DEADLINE_SEPARATOR);
             assert byIdx != -1 : "Input should contain '/by' for deadline";
 
             String desc = body.substring(0, byIdx);
-            String by = body.substring(byIdx + 5);
+            String by = body.substring(byIdx + DEADLINE_SEPARATOR.length()).trim();
 
             return new String[]{desc.trim(), by.trim()};
         } catch (StringIndexOutOfBoundsException e) {
@@ -80,15 +86,15 @@ public class Parser {
     public static String[] getEventParts(String input) throws MyChatBotException {
         assert input != null : "Input should not be null";
         try {
-            String body = input.substring(5).trim();
-            int fromIdx = body.indexOf(" /from ");
-            int toIdx = body.indexOf(" /to ");
+            String body = input.substring(EVENT_COMMAND_LENGTH).trim();
+            int fromIdx = body.indexOf(EVENT_FROM_SEPARATOR);
+            int toIdx = body.indexOf(EVENT_TO_SEPARATOR);
             assert fromIdx != -1 : "Input should contain '/from' for event";
             assert toIdx != -1 : "Input should contain '/to' for event";
 
             String desc = body.substring(0, fromIdx);
-            String from = body.substring(fromIdx + 7, toIdx);
-            String to = body.substring(toIdx + 5);
+            String from = body.substring(fromIdx + EVENT_FROM_SEPARATOR.length(), toIdx);
+            String to = body.substring(toIdx + EVENT_TO_SEPARATOR.length()).trim();
 
             return new String[]{desc.trim(), from.trim(), to.trim()};
         } catch (StringIndexOutOfBoundsException e) {

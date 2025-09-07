@@ -36,61 +36,84 @@ public class MyChatBot {
         try {
             switch (command) {
             case "bye":
-                response = ui.exit();
-                break;
+                return handleBye();
             case "list":
-                response = ui.printList(tasks);
-                break;
+                return handleList();
             case "mark":
-                int markIndex = Parser.getTaskIndex(userInput);
-                assert markIndex < tasks.size() : "Mark index out of bounds";
-                tasks.getTask(markIndex).markAsDone();
-                storage.save(tasks.getTasks());
-                response = ui.markTaskUi(tasks.getTask(markIndex));
-                break;
+                return handleMark(userInput);
             case "unmark":
-                int unmarkIndex = Parser.getTaskIndex(userInput);
-                assert unmarkIndex < tasks.size() : "Unmark index out of bounds";
-                tasks.getTask(unmarkIndex).markAsNotDone();
-                storage.save(tasks.getTasks());
-                response = ui.unmarkTaskUi(tasks.getTask(unmarkIndex));
-                break;
+                return handleUnmark(userInput);
             case "todo":
-                String todoDesc = Parser.getDescription(userInput);
-                Task todo = new Todo(todoDesc, false);
-                tasks.addTask(todo);
-                storage.save(tasks.getTasks());
-                response = ui.addTaskUi(todo, tasks.size());
-                break;
+                return handleTodo(userInput);
             case "deadline":
-                String[] deadlineParts = Parser.getDeadlineParts(userInput);
-                assert deadlineParts.length == 2: "Deadline parts should have description and due date";
-                Task deadline = new Deadline(deadlineParts[0], false, deadlineParts[1]);
-                tasks.addTask(deadline);
-                storage.save(tasks.getTasks());
-                response = ui.addTaskUi(deadline, tasks.size());
-                break;
+                return handleDeadline(userInput);
             case "event":
-                String[] eventParts = Parser.getEventParts(userInput);
-                assert eventParts.length == 3: "Event parts should have description, start and end time";
-                Task event = new Event(eventParts[0], false, eventParts[1], eventParts[2]);
-                tasks.addTask(event);
-                storage.save(tasks.getTasks());
-                response = ui.addTaskUi(event, tasks.size());
-                break;
+                return handleEvent(userInput);
             case "find":
-                String keyword = Parser.getDescription(userInput);
-                assert !keyword.isEmpty() : "Keyword should not be empty";
-                ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
-                response = ui.printMatchingTasks(matchingTasks);
-                break;
+                return handleFind(userInput);
             default:
-                response = ui.showError("Sorry, please try again.");
+                return ui.showError("Sorry, please try again.");
             }
         } catch (MyChatBotException e) {
-            response = ui.showError(e.getMessage());
+            return ui.showError(e.getMessage());
         }
-        return response;
+    }
+
+    private String handleBye() {
+        return ui.exit();
+    }
+
+    private String handleList() throws MyChatBotException {
+        return ui.printList(tasks);
+    }
+
+    private String handleMark(String userInput) throws MyChatBotException {
+        int markIndex = Parser.getTaskIndex(userInput);
+        assert markIndex < tasks.size() : "Mark index out of bounds";
+        tasks.getTask(markIndex).markAsDone();
+        storage.save(tasks.getTasks());
+        return ui.markTaskUi(tasks.getTask(markIndex));
+    }
+
+    private String handleUnmark(String userInput) throws MyChatBotException {
+        int unmarkIndex = Parser.getTaskIndex(userInput);
+        assert unmarkIndex < tasks.size() : "Unmark index out of bounds";
+        tasks.getTask(unmarkIndex).markAsNotDone();
+        storage.save(tasks.getTasks());
+        return ui.unmarkTaskUi(tasks.getTask(unmarkIndex));
+    }
+
+    private String handleTodo(String userInput) {
+        String todoDesc = Parser.getDescription(userInput);
+        Task todo = new Todo(todoDesc, false);
+        tasks.addTask(todo);
+        storage.save(tasks.getTasks());
+        return ui.addTaskUi(todo, tasks.size());
+    }
+
+    private String handleDeadline(String userInput) throws MyChatBotException {
+        String[] deadlineParts = Parser.getDeadlineParts(userInput);
+        assert deadlineParts.length == 2: "Deadline parts should have description and due date";
+        Task deadline = new Deadline(deadlineParts[0], false, deadlineParts[1]);
+        tasks.addTask(deadline);
+        storage.save(tasks.getTasks());
+        return ui.addTaskUi(deadline, tasks.size());
+    }
+
+    private String handleEvent(String userInput) throws MyChatBotException {
+        String[] eventParts = Parser.getEventParts(userInput);
+        assert eventParts.length == 3: "Event parts should have description, start and end time";
+        Task event = new Event(eventParts[0], false, eventParts[1], eventParts[2]);
+        tasks.addTask(event);
+        storage.save(tasks.getTasks());
+        return ui.addTaskUi(event, tasks.size());
+    }
+
+    public String handleFind(String userInput) throws MyChatBotException {
+        String keyword = Parser.getDescription(userInput);
+        assert !keyword.isEmpty() : "Keyword should not be empty";
+        ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
+        return ui.printMatchingTasks(matchingTasks);
     }
 
     public void run() {
