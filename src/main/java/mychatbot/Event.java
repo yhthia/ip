@@ -27,6 +27,11 @@ public class Event extends Task {
         this.to = LocalDateTime.parse(to, formatter);
     }
 
+    @Override
+    public LocalDateTime getDateTime() {
+        return from;
+    }
+
     /**
      * Returns the string representation of the Event, formatted for displaying to the user.
      * @return

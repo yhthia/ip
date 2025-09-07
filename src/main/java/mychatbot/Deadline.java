@@ -23,6 +23,11 @@ public class Deadline extends Task {
         this.by = LocalDateTime.parse(by, formatter);
     }
 
+    @Override
+    public LocalDateTime getDateTime() {
+        return by;
+    }
+
     /**
      * Returns the string representation of the Deadline, formatted for displaying to the user.
      * @return

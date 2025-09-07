@@ -31,7 +31,6 @@ public class MyChatBot {
      */
     public String getResponse(String userInput) {
         assert userInput != null : "User input should not be null";
-        String response;
         String command = Parser.getCommandType(userInput);
         try {
             switch (command) {
@@ -51,6 +50,8 @@ public class MyChatBot {
                 return handleEvent(userInput);
             case "find":
                 return handleFind(userInput);
+            case "sort":
+                return handleSort();
             default:
                 return ui.showError("Sorry, please try again.");
             }
@@ -109,11 +110,16 @@ public class MyChatBot {
         return ui.addTaskUi(event, tasks.size());
     }
 
-    public String handleFind(String userInput) throws MyChatBotException {
+    private String handleFind(String userInput) throws MyChatBotException {
         String keyword = Parser.getDescription(userInput);
         assert !keyword.isEmpty() : "Keyword should not be empty";
         ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
         return ui.printMatchingTasks(matchingTasks);
+    }
+
+    private String handleSort() throws MyChatBotException {
+        tasks.sortChronologically();
+        return ui.printList(tasks);
     }
 
     public void run() {
