@@ -1,5 +1,8 @@
 package mychatbot;
 
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 /**
  * Provides static methods for parsing users' input based on task type.
  */
@@ -70,9 +73,20 @@ public class Parser {
             String desc = body.substring(0, byIdx);
             String by = body.substring(byIdx + DEADLINE_SEPARATOR.length()).trim();
 
+            if (desc.isEmpty() || by.isEmpty()) {
+                throw new IllegalArgumentException("Description and deadline cannot be empty");
+            }
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+            try {
+                formatter.parse(by);
+            } catch (DateTimeParseException e) {
+                throw new MyChatBotException("Invalid datetime format. Use 'd/M/yyyy HHmm' instead");
+            }
+
             return new String[]{desc.trim(), by.trim()};
-        } catch (StringIndexOutOfBoundsException e) {
-            throw new MyChatBotException("Invalid format, " +
+        } catch (Exception e) {
+            throw new MyChatBotException("Invalid datetime format, " +
                     "it should be: 'deadline <description> /by <due date> " +
                     "in the format d/M/yyyy HHmm'");
         }
@@ -96,9 +110,21 @@ public class Parser {
             String from = body.substring(fromIdx + EVENT_FROM_SEPARATOR.length(), toIdx);
             String to = body.substring(toIdx + EVENT_TO_SEPARATOR.length()).trim();
 
+            if (desc.isEmpty() || from.isEmpty() || to.isEmpty()) {
+                throw new IllegalArgumentException("Description, start and end dates cannot be empty");
+            }
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
+            try {
+                formatter.parse(from);
+                formatter.parse(to);
+            } catch (DateTimeParseException e) {
+                throw new MyChatBotException("Invalid datetime format. Use 'd/M/yyyy HHmm' instead");
+            }
+
             return new String[]{desc.trim(), from.trim(), to.trim()};
-        } catch (StringIndexOutOfBoundsException e) {
-            throw new MyChatBotException("Invalid format, " +
+        } catch (Exception e) {
+            throw new MyChatBotException("Invalid datetime format, " +
                     "it should be: 'event <description> /from <start date> /to <end date>" +
                     "in the format d/M/yyyy HHmm'");
         }
