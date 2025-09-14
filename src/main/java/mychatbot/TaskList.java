@@ -36,8 +36,11 @@ public class TaskList {
 
     public ArrayList<Task> findTasks(String keyword) {
         ArrayList<Task> matchingTasks = new ArrayList<>();
+        if (keyword == null || keyword.isEmpty()) {
+            return matchingTasks;
+        }
         for (Task task : tasks) {
-            if (task.getDescription().contains(keyword)) {
+            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
                 matchingTasks.add(task);
             }
         }
