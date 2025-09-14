@@ -20,6 +20,7 @@ public class Main extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
+            stage.setTitle("MyChatBot");
             stage.setScene(scene);
             fxmlLoader.<MainWindow>getController().setMyChatBot(myChatBot);  // inject the MyChatBot instance
             stage.show();
