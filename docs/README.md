@@ -5,9 +5,16 @@ This guide will help you use all the important features of this task management 
 
 ---
 
+## Setup Instructions
+1. Download the .jar file [here](https://github.com/yhthia/ip/releases/tag/A-Release) and save it to a folder.
+2. Open your local terminal and navigate to the folder which you saved the .jar file in and run the following command:
+```
+java -jar mychatbot.jar
+```
+
 ## Features
 
-### :information_source: Notes about command format
+### Notes about command format
 
 - Words in **UPPER_CASE** are parameters to be supplied by you.  
   Example:  
